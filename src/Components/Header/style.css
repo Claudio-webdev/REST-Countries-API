@@ -1,0 +1,25 @@
+.header{
+    height: 105px;
+    display: flex;
+    padding: 0 105px;
+    align-items: center;
+    justify-content: space-between;
+    background-color:white;
+    box-shadow: 0px 3px 10px #e6e4e4;
+}
+h1{
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+}
+.header__switcher{
+    background-color: transparent;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 600;
+    border: none;
+    font-size: 21px;
+}
+.moon{
+    transform: rotate(-25deg);
+    margin-right: 7px;
+}

@@ -1,23 +1,52 @@
-import logo from './logo.svg';
+import React, { useEffect, useReducer } from 'react'
 import './App.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import Header from './Components/Header';
+import MainContainer from './Components/MainContainer';
 
+//import Function
+import reducer from './reducer'
+
+const initialState = {
+  allCountries: [],
+  filter: '',
+  isSelected: false,
+}
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const url = `https://restcountries.eu/rest/v2/${state.filter}`
+
+
+  useEffect(() => {
+    fetch(url)
+    .then((response) => {
+      if (response.ok) { 
+       return response.json();
+      }
+      return Promise.reject(response); 
+    })
+      .then(response => dispatch({ type: 'GET_RIGHT_COUNTRIES', payload: response }))
+      .catch((error) => {
+        console.log('Something went wrong.', error); 
+      })
+  }, [url])
+  console.log(url)
+  if (!state.allCountries) {
+    return (
+      <FontAwesomeIcon icon={faSpinner} spinner/>
+    )
+  }
+  console.log(state.allCountries)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <div className="mainContainer">
+        <MainContainer 
+          state={state}
+          dispatch={dispatch}
+        />
+      </div>
     </div>
   );
 }
